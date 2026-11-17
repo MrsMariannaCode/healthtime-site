@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthTime - Painel Médico & Prontuário</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- TOPBAR COM O CORAÇÃO -->
+  <header class="doctor-header">
+    <div class="logo-area">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" style="width: 32px; height: 32px;">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" stroke="#f43f5e" stroke-width="2"/>
+        <path d="M3.5 12h4l2-4 3 8 2-4h5" stroke="#f43f5e" stroke-width="2"/>
+      </svg>
+      <h1>Health<span>Time</span> <small style="font-size: 0.8rem; color: #64748b; font-weight: 500;">| Central UBS</small></h1>
+    </div>
+
+    <div class="doctor-profile">
+      <div class="doctor-info">
+        <strong>Dr. Carlos Eduardo</strong>
+        <span>CRM/SP 123456 • Cardiologia</span>
+      </div>
+      <div class="avatar-doc">CE</div>
+    </div>
+  </header>
+
+  <div class="main-container">
+    
+    <aside class="sidebar">
+      <button class="nav-item active" onclick="alternarAba('prontuario', this)">Prontuário Eletrônico</button>
+      <button class="nav-item" onclick="alternarAba('telemedicina', this)">Telemedicina (SUS)</button>
+      <button class="nav-item" onclick="alternarAba('resumo', this)">Resumo dos Pacientes</button>
+    </aside>
+
+    <main class="content-area">
+
+      <section id="aba-prontuario" class="tab-content active">
+        <div class="card patient-card">
+          <div class="patient-header">
+            <div class="patient-avatar">AR</div>
+            <div>
+              <h2>Arthur (Paciente)</h2>
+              <p>19 anos • Masculino • Cartão SUS: 980.1234.5678.0012</p>
+            </div>
+            <span class="badge-status status-alert">● Monitoramento Ativo</span>
+          </div>
+
+          <div class="patient-grid">
+            <div class="info-box">
+              <label>Condições Crônicas</label>
+              <strong>Histórico de Taquicardia / Quedas</strong>
+            </div>
+            <div class="info-box">
+              <label>Última Aferição Pulseira</label>
+              <strong id="vitasResumo">72 BPM | SpO₂ 97%</strong>
+            </div>
+            <div class="info-box">
+              <label>Unidade de Saúde</label>
+              <strong>UBS Central - Unidade 04</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-columns">
+          <div class="card">
+            <div class="card-title-bar">
+              <h3>Histórico de Eventos Cardíacos</h3>
+              <button class="btn-warning" onclick="carregarHistoricoMedico()">🔄 Atualizar Eventos</button>
+            </div>
+            <div id="tabelaHistoricoMedico" class="history-list">
+              <p style="font-size: 0.8rem; color: #64748b;">Carregando dados da pulseira...</p>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>Parecer e Anotações do Prontuário</h3>
+            <p class="subtitle-text">Registre orientações clínicas para o aplicativo do paciente.</p>
+            <form id="formParecer" onsubmit="salvarParecer(event)">
+              <textarea id="textoParecer" rows="5" placeholder="Digite as observações médicas..."></textarea>
+              <button type="submit" class="btn-primary">Salvar e Enviar ao App</button>
+            </form>
+            <div id="msgParecer" class="feedback-msg"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="aba-telemedicina" class="tab-content">
+        <div class="card">
+          <h2>Sala de Teleconsultas Segura</h2>
+          <p class="subtitle-text">Atendimento médico à distância integrado aos sinais vitais em tempo real.</p>
+          <div class="telemed-container">
+            <div class="video-window">
+              <div class="video-placeholder">
+                <div class="remote-patient-avatar">AR</div>
+                <p><strong>Paciente: Arthur</strong></p>
+                <span class="pulse-live">🔴 AO VIVO • Conexão Criptografada</span>
+              </div>
+              <div class="video-controls">
+                <button class="btn-tele-control">🎙️ Mute</button>
+                <button class="btn-tele-control">📷 Câmera</button>
+                <button class="btn-tele-control btn-danger-call">📞 Encerrar</button>
+              </div>
+            </div>
+            <div class="telemed-sidebar">
+              <h3>Sinais Vitais na Consulta</h3>
+              <div class="vital-badge-box"><span>Frequência:</span><strong id="teleBpm">72 BPM</strong></div>
+              <div class="vital-badge-box"><span>SpO₂:</span><strong id="teleSpo2">97%</strong></div>
+              <hr>
+              <button class="btn-primary" onclick="alert('Receita digital enviada!')">Emitir Receita</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="aba-resumo" class="tab-content">
+        <div class="card">
+          <h2>Anotações do Prontuário</h2>
+          <p class="subtitle-text">Histórico de pareceres enviados.</p>
+          <div id="listaResumoPareceres" class="history-list">
+            <p style="font-size: 0.8rem; color: #64748b;">Carregando...</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
