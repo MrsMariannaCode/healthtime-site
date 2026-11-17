@@ -5,7 +5,7 @@ header("Access-Control-Allow-Headers: Content-Type");
 date_default_timezone_set('America/Bahia');
 
 try {
-    // Banco SQLite local do site médico dela
+    // Banco SQLite local do site médico 
     $pdo = new PDO("sqlite:" . __DIR__ . "/../healthtime_site.db");
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $pdo->exec("CREATE TABLE IF NOT EXISTS pareceres_medicos (id INTEGER PRIMARY KEY AUTOINCREMENT, texto TEXT, data_hora TEXT)");
@@ -15,8 +15,8 @@ try {
         $stmt = $pdo->prepare("INSERT INTO pareceres_medicos (texto, data_hora) VALUES (?, ?)");
         $stmt->execute([$input['texto'], date('d/m/Y H:i:s')]);
 
-        // Envia automaticamente para o seu Codespaces (App)
-        $urlApp = "https://legendary-guacamole-r446479v54rv3p6rx-8000.app.github.dev/api/receber_observacao.php";
+        // Envio para o App
+        $urlApp = "http://healthtimeapp.infinityfreeapp.com/api/receber_observacao.php";
         
         @file_get_contents($urlApp, false, stream_context_create([
             'http' => [
