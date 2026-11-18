@@ -24,6 +24,25 @@ function carregarHistoricoMedico() {
         return;
       }
 
+      // Pega sempre o evento mais recente (topo da lista) para atualizar a pulseira e a telemedicina
+      const maisRecente = dados[0];
+      const vitasResumo = document.getElementById('vitasResumo');
+      const teleBpm = document.getElementById('teleBpm');
+      const teleSpo2 = document.getElementById('teleSpo2');
+
+      if (vitasResumo) {
+        vitasResumo.innerText = `${maisRecente.bpm} BPM | SpO₂ ${maisRecente.spo2}%`;
+        vitasResumo.style.color = '#f43f5e';
+      }
+      if (teleBpm) {
+        teleBpm.innerText = `${maisRecente.bpm} BPM`;
+        teleBpm.style.color = '#f43f5e';
+      }
+      if (teleSpo2) {
+        teleSpo2.innerText = `${maisRecente.spo2}%`;
+        teleSpo2.style.color = '#f43f5e';
+      }
+
       container.innerHTML = '';
       dados.forEach(item => {
         container.innerHTML += `
@@ -33,9 +52,6 @@ function carregarHistoricoMedico() {
             <div class="med-time">${item.data_hora}</div>
           </div>
         `;
-        document.getElementById('vitasResumo').innerText = `${item.bpm} BPM | SpO₂ ${item.spo2}%`;
-        document.getElementById('teleBpm').innerText = `${item.bpm} BPM`;
-        document.getElementById('teleSpo2').innerText = `${item.spo2}%`;
       });
     })
     .catch(() => container.innerHTML = '<p style="font-size: 0.8rem; color: #f43f5e;">Erro ao conectar com a API de alertas.</p>');
