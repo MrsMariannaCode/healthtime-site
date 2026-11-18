@@ -16,7 +16,7 @@ try {
         $stmt->execute([$input['texto'], date('d/m/Y H:i:s')]);
 
         // Envio para o App
-        $urlApp = "https://healthtime-app.onrender.com/api/receber_observacao.php";
+        $urlApp = "https://healthtime-app.onrender.com/api/receber_alerta.php";
         
         @file_get_contents($urlApp, false, stream_context_create([
             'http' => [
